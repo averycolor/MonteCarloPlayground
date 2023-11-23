@@ -1,2 +1,16 @@
-# MonteCarloPlayground
+# Monte Carlo Playground
 A visualizer for the application of the Monte Carlo method to problems concerning determining areas of geometrical shapes.
+
+# Why?
+I chose to make this project after visiting an extracurricular computer science class where this method was applied to solving an interesting problem.
+The problem looked something like this:
+
+_Imagine a set of cell communication towers placed in a field. Their coverage is defined as a circular area centered around a given point and posessing a given radius. Given all the towers' coverage areas' paramenters, find the total area of the network's coverage._
+
+Sounds pretty simple, right? Just the good old *pi-times-radius-squared* for each coverage area. Until you realise the positions are there for a reason: the coverage areas can partially or completely overlap, so the problem goes from finding the area of several circles to finding the area of an ungodly amalgamation of them. This problem is actually solveable geometrically. Finding the area of an overlap should not be that difficult! But I'm lazy. And as much as I love maths and computer science, I sometimes suck at them. So determining all the formulas and somehow putting them into a computer language was beyond me. So the Monte Carlo Method would be perfect here. 
+
+# How does it work?
+The Monte-Carlo method views shapes as a cloud of points, not as areas of a coordinate plane enclosed in mathematicaly-defined curves and equations like we normally do. It samples points from random places of the plane and uses equations to check whether they are within a shape. But not equations that define a set of points that make up the border of the shape. Rather a set of points that make up the area of a shape.
+As long as the points are sampled completely arbitarily, their density should be uniform across the entire plane. If we were to define the set of points that are inside a shape (according to the equations) as M, and the set of all points that were sampled as N, and were then to divide the amount of points in M by the amount of points in N, we would get the ratio of "empty" to "non empty" space. But this value is useless on an infinite plane. So we take a bounding box just large enough to enclose the shape we are studying (which should not be that hard to figure out mathematically or experimentally) and constrain all points of N to be inside of it, and with that, obviously all points of M. The ratio that we get now makes a lot more sense as it is not M over infinity, but M over N, a definite number somewhat below that. All it now takes is to multiply this ratio by the area of the bounding box, and you've got your answer. 
+
+The precision of this method, however, is imperfect. Even if the points were perfectly uniform, there is no warranty that they would be perfectly uniform inside of the shape, somewhat deviating the area from the objective measurement. However, as the amount of sampled points moves towards infinity, the imprecision moves towards 0. Somewhere between "dogshoot-imprecise" and "perfectly precise" lies the golden balance that is just alright for your application. Problems in coding competitions typically like to help you hide this imperfection by rounding your answer to a couple of digits beyond the floating point, making it a perfectly viable task to find that golden balance and get the perfect precision for you with the least computation.
